@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wells Analytics — Landing Mock (Lin editable draft)</title>
+  <!-- Fonts close to alfa8: Questrial ≈ Century Gothic feel; IBM Plex Mono for labels -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Questrial&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font: "Questrial", "Century Gothic", CenturyGothic, "Avenir Next", Arial, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+      --coral: #f9810b;          /* alfa8 accent */
+      --coral-soft: #ff9a3c;
+      --nav-gray: #9a9a9a;
+      --bar: #b0b0b0;
+      --white: #ffffff;
+      --ink: #1a1a1a;
+      --muted: rgba(255,255,255,.88);
+      --paper: #f4f4f2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--white);
+      background: #ececec;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ——— TOP BAR (alfa8-style gray bar) ——— */
+    .topbar {
+      background: var(--bar);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .65rem clamp(1rem, 3vw, 2.5rem);
+      position: relative; z-index: 40;
+    }
+    .brand {
+      display: flex; align-items: center; gap: .65rem;
+      color: #fff; font-size: .95rem; letter-spacing: .04em;
+    }
+    .brand-logo {
+      height: 40px; width: auto; display: block;
+    }
+    .nav-links {
+      display: none; gap: 1.35rem; list-style: none;
+    }
+    .nav-links a {
+      color: #fff; font-size: .72rem; letter-spacing: .14em; text-transform: uppercase;
+      opacity: .95; transition: opacity .2s;
+    }
+    .nav-links a:hover { opacity: .7; }
+    @media (min-width: 860px) { .nav-links { display: flex; } }
+
+    /* ——— HERO ——— */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 48px);
+      min-height: calc(100dvh - 48px);
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    /* Luminous blue–green (alfa8 brightness; not dark navy blocks) */
+    .hero-geo {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(105deg,
+        #8aa8a0 0%,
+        #97b8a8 16%,
+        #a8c9b0 32%,
+        #9fd0c4 48%,
+        #8ec8e0 64%,
+        #9ed4f0 80%,
+        #c8e8fa 100%
+      );
+    }
+    .hero-geo svg {
+      width: 100%; height: 100%;
+      opacity: .95;
+      animation: drift 30s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      from { transform: scale(1.02); }
+      to { transform: scale(1.05) translate3d(-1%, .5%, 0); }
+    }
+
+    .hero-veil {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(50,70,72,.32) 0%, rgba(50,70,72,.12) 36%, transparent 58%),
+        linear-gradient(180deg, rgba(0,0,0,.06) 0%, transparent 24%, transparent 80%, rgba(0,0,0,.1) 100%);
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      width: min(1120px, 100%);
+      margin: 0 auto;
+      padding: clamp(3.5rem, 10vh, 6rem) clamp(1.25rem, 4vw, 2.75rem) 3.5rem;
+      display: grid;
+      gap: 2rem;
+      align-items: center;
+      min-height: inherit;
+    }
+    @media (min-width: 900px) {
+      .hero-inner { grid-template-columns: 1.15fr .85fr; }
+    }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: .55rem;
+      font-family: var(--mono);
+      font-size: .72rem; letter-spacing: .06em;
+      color: rgba(255,255,255,.92);
+      margin-bottom: 1.35rem;
+    }
+    .tag i {
+      width: 8px; height: 8px; background: var(--coral); display: inline-block;
+    }
+
+    .hero h1 {
+      font-family: var(--font);
+      font-weight: 400;
+      font-size: clamp(2.4rem, 6.5vw, 4.6rem);
+      line-height: .98;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 1.1rem;
+      text-shadow: 0 2px 18px rgba(0,0,0,.28);
+      animation: rise .8s ease both;
+    }
+    .hero h1 span {
+      display: block;
+      font-size: .42em;
+      letter-spacing: .08em;
+      margin-top: .35rem;
+      opacity: .95;
+    }
+    .hero-lead {
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 34rem;
+      margin-bottom: 1.75rem;
+      text-shadow: 0 1px 12px rgba(0,0,0,.2);
+      animation: rise .9s .05s ease both;
+    }
+    .ph { opacity: .7; font-size: .9em; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .cta-row { display: flex; flex-wrap: wrap; gap: 1rem 1.35rem; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .85rem 1.25rem;
+      background: var(--coral);
+      color: #fff;
+      font-size: .82rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .btn:hover { background: var(--coral-soft); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,.75);
+      padding-left: 0; padding-right: 0; padding-bottom: .25rem;
+      letter-spacing: .1em;
+    }
+    .btn-ghost:hover { background: transparent; border-bottom-color: #fff; transform: none; }
+
+    /* Hero mark — alfa8-style moving circle, Wells identity (compass + network) */
+    .ornament {
+      position: relative;
+      min-height: 300px;
+      display: grid; place-items: center;
+    }
+    .mark-stage {
+      position: relative;
+      width: min(100%, 340px);
+      aspect-ratio: 1;
+    }
+    .mark-stage svg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      overflow: visible;
+    }
+    .spin-slow {
+      animation: spinCW 48s linear infinite;
+      transform-origin: 50% 50%;
+    }
+    .spin-mid {
+      animation: spinCCW 32s linear infinite;
+      transform-origin: 50% 50%;
+    }
+    .spin-fast {
+      animation: spinCW 18s linear infinite;
+      transform-origin: 50% 50%;
+    }
+    .mark-core {
+      animation: softPulse 7s ease-in-out infinite;
+      transform-origin: 50% 50%;
+    }
+    @keyframes spinCW {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes spinCCW {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    @keyframes softPulse {
+      0%,100% { opacity: .82; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+    .coord {
+      position: absolute; left: 0; bottom: 0;
+      font-family: var(--mono);
+      font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+    }
+    @media (max-width: 899px) {
+      .ornament { min-height: 220px; }
+      .mark-stage { width: min(72%, 250px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .spin-slow, .spin-mid, .spin-fast, .mark-core { animation: none; }
+    }
+
+    /* Bottom partner-style bar */
+    .partner-bar {
+      background: var(--bar);
+      padding: .85rem clamp(1rem, 3vw, 2.5rem);
+      display: flex; flex-wrap: wrap; gap: .75rem 1.5rem;
+      align-items: center; justify-content: space-between;
+      color: #fff; font-size: .78rem; letter-spacing: .04em;
+    }
+    .partner-bar strong { font-weight: 400; letter-spacing: .08em; text-transform: uppercase; }
+
+    /* Sections */
+    .section { padding: clamp(3.25rem, 6vw, 5rem) clamp(1.25rem, 4vw, 2.75rem); background: #fff; color: var(--ink); }
+    .section.alt { background: var(--paper); }
+    .section.dark {
+      background: linear-gradient(120deg, #4a6b6e 0%, #5f8f9a 45%, #6fa8c4 100%);
+      color: #fff;
+    }
+    .section-inner { width: min(1080px, 100%); margin: 0 auto; }
+    .kicker {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--coral); margin-bottom: .55rem;
+    }
+    .section.dark .kicker { color: #ffe0b8; }
+    .section h2 {
+      font-family: var(--font); font-weight: 400;
+      font-size: clamp(1.7rem, 3vw, 2.35rem);
+      text-transform: uppercase; letter-spacing: .02em;
+      line-height: 1.1; margin-bottom: .75rem;
+    }
+    .lede { font-size: 1.05rem; line-height: 1.55; max-width: 38rem; color: #444; margin-bottom: 1.75rem; }
+    .section.dark .lede { color: rgba(255,255,255,.9); }
+
+    .split { display: grid; gap: 1.75rem; align-items: center; }
+    @media (min-width: 860px) {
+      .split { grid-template-columns: 1.05fr .95fr; gap: 2.5rem; }
+      .split.rev .copy { order: 2; }
+      .split.rev .visual { order: 1; }
+    }
+    .visual { position: relative; overflow: hidden; min-height: 270px; }
+    .visual img { width: 100%; height: 100%; object-fit: cover; min-height: 270px; transition: transform .7s ease; }
+    .visual:hover img { transform: scale(1.03); }
+    .visual-label {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: .65rem .85rem;
+      background: linear-gradient(transparent, rgba(0,0,0,.75));
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      color: #ffe0b8;
+    }
+
+    .pillars { display: grid; gap: 1rem; }
+    @media (min-width: 720px) { .pillars { grid-template-columns: repeat(3, 1fr); } }
+    .pillar { background: #fff; border: 1px solid #e5e5e5; overflow: hidden; transition: transform .25s ease; }
+    .section.alt .pillar { background: #fff; }
+    .pillar:hover { transform: translateY(-3px); }
+    .pillar img { width: 100%; height: 160px; object-fit: cover; }
+    .pillar-body { padding: 1rem 1.05rem 1.15rem; }
+    .pillar h3 { font-size: 1.05rem; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .4rem; font-weight: 400; }
+    .pillar p { color: #555; font-size: .95rem; line-height: 1.45; }
+
+    .exp-list { list-style: none; display: grid; gap: .65rem; margin-top: 1.1rem; }
+    .exp-list li {
+      padding: .8rem .95rem; border-left: 3px solid var(--coral);
+      background: #f7f7f5; font-size: .95rem; line-height: 1.45; color: #333;
+    }
+
+    .replace-grid { display: grid; gap: 1rem; }
+    @media (min-width: 800px) { .replace-grid { grid-template-columns: 1fr 1fr; } }
+    .swap-card {
+      display: grid; grid-template-columns: 1fr 1fr; gap: .5rem;
+      border: 1px solid #e0e0e0; padding: .65rem; background: #fff;
+    }
+    .swap-card img { width: 100%; height: 112px; object-fit: cover; background: #ddd; }
+    .swap-card figcaption {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+      text-transform: uppercase; margin-top: .3rem; font-weight: 500;
+    }
+    .bad { color: #c2410c; }
+    .good { color: #0f766e; }
+    .swap-note { grid-column: 1/-1; font-size: .85rem; color: #555; line-height: 1.4; padding: .2rem 0; }
+
+    .btn-dark {
+      display: inline-flex; align-items: center;
+      padding: .85rem 1.2rem; background: var(--ink); color: #fff;
+      font-size: .8rem; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .btn-dark:hover { background: #333; }
+
+    footer {
+      background: #2a2a2a; color: rgba(255,255,255,.65);
+      padding: 1.1rem clamp(1rem, 3vw, 2.5rem);
+      font-size: .78rem; display: flex; flex-wrap: wrap; gap: .75rem 1.5rem;
+      justify-content: space-between;
+    }
+
+    .edit-banner {
+      display: none;
+      background: #1f2937; color: #f8fafc;
+      padding: .7rem clamp(1rem, 3vw, 2.5rem);
+      font-family: var(--mono); font-size: .68rem; letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    body.editable .edit-banner { display: block; }
+    body.editable [contenteditable="true"] {
+      outline: 1px dashed rgba(249,129,11,.55);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+    body.editable [contenteditable="true"]:focus {
+      outline: 2px solid rgba(249,129,11,.9);
+      background: rgba(249,129,11,.08);
+    }
+  </style>
+</head>
+<body class="editable">
+  <div class="edit-banner">Editable draft for Lin — click outlined text to revise · File → Save Page As when done · This file is the editable copy</div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Wells Analytics home">
+      <img class="brand-logo" src="wells-logo.png" alt="Wells Analytics LLC" width="160" height="68" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#audience">Who We Serve</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#star-tides">STAR-TIDES</a></li>
+      <li><a href="#replace">Image Plan</a></li>
+      <li><a href="#contact">Connect</a></li>
+    </ul>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-label="Wells Analytics hero">
+      <div class="hero-geo" aria-hidden="true">
+        <!--
+          Lin feedback: keep green→blue colors, but NO sharp down-angle at the mix.
+          Main seam = slow, shallow diagonal (shallower at top). Tiny left triangle moved.
+          Beige accent softened / pulled left of the Wells title area.
+        -->
+        <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <linearGradient id="greenField" x1="0" y1="0" x2="1" y2="0.15">
+              <stop offset="0%" stop-color="#8fa89f"/>
+              <stop offset="55%" stop-color="#a8c4b4"/>
+              <stop offset="100%" stop-color="#b7d4c4"/>
+            </linearGradient>
+            <linearGradient id="blueField" x1="0" y1="0" x2="1" y2="0.2">
+              <stop offset="0%" stop-color="#8ecfe0"/>
+              <stop offset="45%" stop-color="#b0dff2"/>
+              <stop offset="100%" stop-color="#eaf6fc"/>
+            </linearGradient>
+            <linearGradient id="seamBlend" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#a8d0c0"/>
+              <stop offset="50%" stop-color="#9fd0d4"/>
+              <stop offset="100%" stop-color="#8ec8e0"/>
+            </linearGradient>
+          </defs>
+
+          <!-- GREEN mass (left): right edge is a SHALLOW lean (top flatter, slow fall) -->
+          <polygon fill="url(#greenField)" points="0,0 920,0 1120,900 0,900"/>
+
+          <!-- Soft internal green bands — wide angles only, no spikes -->
+          <polygon fill="#9bb5ac" points="0,0 560,0 480,480 0,560" opacity=".45"/>
+          <polygon fill="#b4cdb8" points="180,0 780,60 860,520 260,500" opacity=".35"/>
+          <!-- Lower-left shape moved farther left & flattened (was sharp tiny triangle mid-left) -->
+          <polygon fill="#8fa89f" points="0,640 200,740 120,900 0,900" opacity=".5"/>
+
+          <!--
+            MAIN SEAM — the thing Lin called out:
+            slow / less-deep slope (almost a gentle ramp), shallower at the top.
+            Top sits near center; bottom drifts only a little right — not a steep dive.
+          -->
+          <polygon fill="url(#seamBlend)" points="820,0 1180,0 1280,900 980,900" opacity=".9"/>
+
+          <!-- BLUE mass (right): follows that same shallow ramp -->
+          <polygon fill="url(#blueField)" points="1020,0 1600,0 1600,900 1180,900"/>
+
+          <!-- Soft blue facets (wide, not pointed) -->
+          <polygon fill="#7ec8dc" points="1180,0 1520,0 1460,260 1120,200" opacity=".4"/>
+          <polygon fill="#dff1fa" points="1320,70 1600,30 1600,240 1380,280" opacity=".65"/>
+          <polygon fill="#9ed0e8" points="1180,900 1400,760 1600,900" opacity=".45"/>
+          <polygon fill="#ffffff" points="1400,130 1560,100 1590,190 1440,220" opacity=".35"/>
+
+          <!-- Beige accent: soft parallelogram left of title / “W”, not a sharp brown square -->
+          <polygon fill="#d4c4a0" points="360,200 560,165 600,300 410,335" opacity=".26"/>
+        </svg>
+      </div>
+      <div class="hero-veil"></div>
+
+      <div class="hero-inner">
+        <div>
+          <div class="tag"><i></i> 001 — Strategy · Technology · Decision-Making</div>
+          <h1>
+            Wells Analytics
+            <span>Technology, strategy &amp; decision-making</span>
+          </h1>
+          <p class="hero-lead" contenteditable="true">
+            Connecting technology, strategy, and decision-making for leaders who work across government, industry, and communities — including the STAR-TIDES network.
+            <br /><span class="ph">(Placeholder — swap in Lin’s final text)</span>
+          </p>
+          <div class="cta-row">
+            <a class="btn" href="#contact">What we do →</a>
+            <a class="btn btn-ghost" href="#audience">Start a conversation</a>
+          </div>
+        </div>
+
+        <div class="ornament" aria-hidden="true">
+          <!-- Moving circular mark (alfa8 energy) + Wells compass/network identity -->
+          <div class="mark-stage">
+            <!-- Outer dashed orbit — slow spin -->
+            <svg class="spin-slow" viewBox="0 0 200 200" fill="none">
+              <circle cx="100" cy="100" r="92" stroke="rgba(255,255,255,.28)" stroke-width="0.7" stroke-dasharray="3 7"/>
+              <circle cx="100" cy="8" r="2.2" fill="rgba(255,255,255,.75)"/>
+              <circle cx="192" cy="100" r="1.8" fill="rgba(255,255,255,.55)"/>
+              <circle cx="100" cy="192" r="1.8" fill="rgba(255,255,255,.45)"/>
+              <circle cx="8" cy="100" r="1.8" fill="rgba(255,255,255,.55)"/>
+            </svg>
+            <!-- Mid ring + ticks — counter-spin -->
+            <svg class="spin-mid" viewBox="0 0 200 200" fill="none">
+              <circle cx="100" cy="100" r="74" stroke="rgba(255,255,255,.4)" stroke-width="0.8"/>
+              <g stroke="rgba(255,255,255,.55)" stroke-width="0.8">
+                <line x1="100" y1="22" x2="100" y2="30"/>
+                <line x1="100" y1="170" x2="100" y2="178"/>
+                <line x1="22" y1="100" x2="30" y2="100"/>
+                <line x1="170" y1="100" x2="178" y2="100"/>
+                <line x1="147" y1="53" x2="152" y2="48"/>
+                <line x1="48" y1="152" x2="53" y2="147"/>
+                <line x1="147" y1="147" x2="152" y2="152"/>
+                <line x1="48" y1="48" x2="53" y2="53"/>
+              </g>
+            </svg>
+            <!-- Network orbit — faster spin -->
+            <svg class="spin-fast" viewBox="0 0 200 200" fill="none">
+              <circle cx="100" cy="100" r="52" stroke="rgba(255,255,255,.35)" stroke-width="0.7" stroke-dasharray="1.5 5"/>
+              <circle cx="100" cy="48" r="2.6" fill="#fff"/>
+              <circle cx="152" cy="100" r="2.6" fill="#fff"/>
+              <circle cx="100" cy="152" r="2.6" fill="#fff"/>
+              <circle cx="48" cy="100" r="2.6" fill="#fff"/>
+              <circle cx="137" cy="63" r="1.8" fill="rgba(255,255,255,.85)"/>
+              <circle cx="137" cy="137" r="1.8" fill="rgba(255,255,255,.85)"/>
+              <circle cx="63" cy="137" r="1.8" fill="rgba(255,255,255,.85)"/>
+              <circle cx="63" cy="63" r="1.8" fill="rgba(255,255,255,.85)"/>
+              <g stroke="rgba(255,255,255,.35)" stroke-width="0.6">
+                <line x1="100" y1="48" x2="152" y2="100"/>
+                <line x1="152" y1="100" x2="100" y2="152"/>
+                <line x1="100" y1="152" x2="48" y2="100"/>
+                <line x1="48" y1="100" x2="100" y2="48"/>
+              </g>
+            </svg>
+            <!-- Stable compass core (identity) -->
+            <svg class="mark-core" viewBox="0 0 200 200" fill="none">
+              <path d="M100 40 L107 100 L100 160 L93 100 Z" fill="rgba(255,255,255,.18)" stroke="rgba(255,255,255,.9)" stroke-width="0.9"/>
+              <path d="M40 100 L100 93 L160 100 L100 107 Z" fill="rgba(255,255,255,.1)" stroke="rgba(255,255,255,.75)" stroke-width="0.8"/>
+              <circle cx="100" cy="100" r="5.5" fill="rgba(255,255,255,.95)" stroke="rgba(249,129,11,.9)" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="coord">38.85°N · 77.30°W — Fairfax, VA</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="partner-bar">
+      <strong>Wells Analytics LLC</strong>
+      <span>Strategy consulting · Fairfax, VA · Draft for Lin review (9 Nov)</span>
+    </div>
+
+    <section class="section" id="about-brief">
+      <div class="section-inner split">
+        <div class="copy">
+          <div class="kicker">What we do</div>
+          <h2 contenteditable="true">Turn strategy into decisions that hold up under pressure</h2>
+          <p class="lede" contenteditable="true">
+            Wells Analytics helps senior leaders navigate converging, accelerating, and disruptive technologies — linking policy, technology, and people so plans become durable results.
+          </p>
+          <a class="btn-dark" href="#contact">Schedule a consultation →</a>
+        </div>
+        <figure class="visual">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80" alt="Strategy collaboration" loading="lazy" />
+          <figcaption class="visual-label">Strategy collaboration</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section alt" id="audience">
+      <div class="section-inner">
+        <div class="kicker">Who we serve</div>
+        <h2 contenteditable="true">Audiences this work is built for</h2>
+        <p class="lede" contenteditable="true">Leaders and networks across resilience, emerging technology, and civil–military cooperation — including the STAR-TIDES community.</p>
+        <div class="pillars">
+          <article class="pillar">
+            <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80" alt="Resilience and human security" loading="lazy" />
+            <div class="pillar-body">
+              <h3 contenteditable="true">Resilience &amp; human security</h3>
+              <p contenteditable="true">Capacity that holds before, during, and after disruption — for communities and institutions alike.</p>
+            </div>
+          </article>
+          <article class="pillar">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=900&q=80" alt="Emerging tech" loading="lazy" />
+            <div class="pillar-body">
+              <h3 contenteditable="true">Cyber, space &amp; emerging tech</h3>
+              <p contenteditable="true">Strategy for cyber, space, energy, and autonomous systems.</p>
+            </div>
+          </article>
+          <article class="pillar">
+            <img src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=900&q=80" alt="Civil-military communities" loading="lazy" />
+            <div class="pillar-body">
+              <h3 contenteditable="true">Civil–military &amp; communities</h3>
+              <p contenteditable="true">Public–private cooperation and community networks — including STAR-TIDES.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="section-inner split rev">
+        <div class="copy">
+          <div class="kicker">Managing Partner</div>
+          <h2 contenteditable="true">Expertise backed by experience</h2>
+          <p class="lede" contenteditable="true">
+            Dr. Linton Wells II has held senior positions across C3I and the interface between policy and technology — including Acting ASD for Networks and Information Integration / DoD CIO.
+          </p>
+          <ul class="exp-list">
+            <li>Civil–military integration, public–private cooperation, STAR-TIDES</li>
+            <li>Private-sector adult learning for national security institutions</li>
+            <li>Cyber, space, energy, and autonomous vehicle challenges</li>
+            <li>Human resilience and chemical/biological defense</li>
+          </ul>
+        </div>
+        <figure class="visual">
+          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80" alt="Leadership boardroom discussion" loading="lazy" />
+          <figcaption class="visual-label">Boardroom / senior decision table</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section dark" id="star-tides">
+      <div class="section-inner split">
+        <div class="copy">
+          <div class="kicker">Signature network</div>
+          <h2 contenteditable="true">STAR-TIDES</h2>
+          <p class="lede" contenteditable="true">
+            Connecting innovators, communities, and institutions around practical capabilities for resilience and human security — year-round, not only at the demo.
+          </p>
+          <a class="btn" href="#contact">Talk about STAR-TIDES →</a>
+        </div>
+        <figure class="visual">
+          <!-- No red-hand / “blood on hands” stock — community gathering instead -->
+          <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1200&q=80" alt="Community gathering for resilience" loading="lazy" />
+          <figcaption class="visual-label">Community / field network (not red-hand stock)</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section alt" id="replace">
+      <div class="section-inner">
+        <div class="kicker">Vendor notes</div>
+        <h2>Image replacement plan</h2>
+        <p class="lede">Applied in this draft — keep or swap with demo / event photos when ready.</p>
+        <div class="replace-grid">
+          <div class="swap-card">
+            <figure>
+              <img src="https://12205a1.netsolhost.com/__static/3609be56-284a-4fdf-b983-5deb22258697/image_quad" alt="Current geometric" />
+              <figcaption class="bad">Current — purple/orange</figcaption>
+            </figure>
+            <figure>
+              <img src="https://images.unsplash.com/photo-1557683316-973673baf926?auto=format&fit=crop&w=800&q=80" alt="Lighter abstract" style="filter:hue-rotate(160deg) saturate(.7) brightness(1.15)" />
+              <figcaption class="good">New — softer blue–green hero</figcaption>
+            </figure>
+            <p class="swap-note"><strong>Hero:</strong> Luminous blue–green with a gentler green→blue slope (this mock).</p>
+          </div>
+          <div class="swap-card">
+            <figure>
+              <img src="https://12205a1.netsolhost.com/__static/786687bb-fd8c-4985-835f-2eca0b0bb556/image_quad" alt="Globe" />
+              <figcaption class="bad">Current — globe</figcaption>
+            </figure>
+            <figure>
+              <img src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=800&q=80" alt="Community" />
+              <figcaption class="good">New — community (no red hands)</figcaption>
+            </figure>
+            <p class="swap-note"><strong>Globe / red-hand STAR art:</strong> Use community or demo photos; boardroom for experience.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="section-inner">
+        <div class="kicker">Connect</div>
+        <h2 contenteditable="true">Let’s get in touch</h2>
+        <p class="lede" contenteditable="true">Discover how technology, strategy, and decision-making can align to support your goals.</p>
+        <a class="btn" href="mailto:linwells@gmail.com">Connect with us →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>© 2026 Wells Analytics LLC · Mock for review</div>
+    <div>Lin feedback applied · Softer hero slopes · Audience order · Boardroom + STAR image swap</div>
+  </footer>
+</body>
+</html>
